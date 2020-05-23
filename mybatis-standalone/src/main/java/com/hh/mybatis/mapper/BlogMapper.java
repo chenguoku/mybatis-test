@@ -12,5 +12,4 @@ public interface BlogMapper {
      */
     Blog selectBlogById(Integer bid);
 
-
 }
