@@ -8,9 +8,27 @@
         <result column="author_id" property="authorId" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="BaseTypeHandlerMap" type="com.hh.mybatis.domain.BlogHandler">
+        <id column="bid" property="bid" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"
+                typeHandler="com.hh.mybatis.typehandler.MyTypeHandler"/>
+        <result column="author_id" property="authorId" jdbcType="INTEGER"/>
+    </resultMap>
+
     <select id="selectBlogById" resultMap="BaseResultMap" statementType="PREPARED">
         select * from blog where bid = #{bid}
     </select>
 
+    <insert id="insertBlogHanler" parameterType="blogHandler">
+      insert into blog (bid,name,author_id) values (
+      #{bid,jdbcType=INTEGER},
+      #{name,jdbcType=VARCHAR,typeHandler=com.hh.mybatis.typehandler.MyTypeHandler},
+      #{authorId,jdbcType=INTEGER}
+      );
+    </insert>
+
+    <select id="getBlogHandler" resultMap="BaseTypeHandlerMap">
+        select * from blog where bid = #{bid}
+    </select>
 
 </mapper>

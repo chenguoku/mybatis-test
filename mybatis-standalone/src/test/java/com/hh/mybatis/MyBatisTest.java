@@ -1,14 +1,18 @@
 package com.hh.mybatis;
 
 import com.hh.mybatis.domain.Blog;
+import com.hh.mybatis.domain.BlogHandler;
 import com.hh.mybatis.mapper.BlogMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chenguoku
@@ -19,7 +23,11 @@ import java.io.InputStream;
  */
 public class MyBatisTest {
 
-    public static void main(String[] args) throws IOException {
+    /**
+     * 最原始的使用
+     */
+    @Test
+    public void baseUse() throws IOException {
         String resource = "mybatis-config.xml";
 
         InputStream inputStream = Resources.getResourceAsStream(resource);
@@ -35,7 +43,56 @@ public class MyBatisTest {
         } finally {
             session.close();
         }
+    }
 
+    /**
+     * 测试TypeHandler插入
+     */
+    @Test
+    public void testTypeHandlerInsert() {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        BlogHandler blogHandler = new BlogHandler(3, list, 1001);
+
+        SqlSession sqlSession = getSqlSession();
+        BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+        int i = mapper.insertBlogHanler(blogHandler);
+
+        sqlSession.commit();
+        sqlSession.close();
+
+        System.out.println(i);
+    }
+
+    /**
+     * 测试TypeHandler查询
+     */
+    @Test
+    public void testSelectTypeHandler() {
+        SqlSession sqlSession = getSqlSession();
+        BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+        BlogHandler blogHandler = mapper.getBlogHandler(3);
+        System.out.println(blogHandler.toString());
+    }
+
+
+    private SqlSession getSqlSession() {
+        String resource = "mybatis-config.xml";
+
+        InputStream inputStream = null;
+        try {
+            inputStream = Resources.getResourceAsStream(resource);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        SqlSession session = sqlSessionFactory.openSession();
+
+        return session;
     }
 
 }
