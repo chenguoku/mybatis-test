@@ -77,6 +77,18 @@ public class MyBatisTest {
         System.out.println(blogHandler.toString());
     }
 
+    /**
+     * 测试自定义的ObjectFactory
+     * 可以设置 生成对象的一些默认属性
+     */
+    @Test
+    public void testMyObjectFactory() {
+        SqlSession sqlSession = getSqlSession();
+        BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
+        Blog blog = mapper.selectBlogById(4);
+        System.out.println(blog);
+    }
+
 
     private SqlSession getSqlSession() {
         String resource = "mybatis-config.xml";
