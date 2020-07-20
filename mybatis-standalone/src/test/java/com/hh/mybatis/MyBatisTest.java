@@ -85,7 +85,7 @@ public class MyBatisTest {
     public void testMyObjectFactory() {
         SqlSession sqlSession = getSqlSession();
         BlogMapper mapper = sqlSession.getMapper(BlogMapper.class);
-        Blog blog = mapper.selectBlogById(4);
+        Blog blog = mapper.selectBlogById(1);
         System.out.println(blog);
     }
 

@@ -40,9 +40,16 @@
     </typeHandlers>
 
     <!--设置 返回的结果 对象，一些默认属性值-->
-    <!--<objectFactory type="com.hh.mybatis.objectFactory.MyObjectFactory">-->
-        <!--<property name="hh2016" value="666"/>-->
-    <!--</objectFactory>-->
+    <!--    <objectFactory type="com.hh.mybatis.objectFactory.MyObjectFactory">-->
+    <!--        <property name="hh2016" value="666"/>-->
+    <!--    </objectFactory>-->
+
+<!--    <plugins>-->
+<!--        <plugin interceptor="com.hh.mybatis.plugins.SQLInterceptor">-->
+<!--            &lt;!&ndash;可以传入参数，拦截器可以拿到&ndash;&gt;-->
+<!--            <property name="hh" value="hh2016"/>-->
+<!--        </plugin>-->
+<!--    </plugins>-->
 
     <environments default="development">
         <environment id="development">
